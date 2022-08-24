@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
- const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
@@ -11,30 +11,28 @@ app.use(express.json());
 const users = [];
 
 function checksExistsUserAccount(request, response, next) {
-  // COMPLETE AQUI
+//Complete aqui
 }
 
 app.post('/users', (request, response) => {
   const { name, username } = request.body
-
-
-
-  users.push({
-    name,
-    username,
-    uuidv4,
+  const user = { 
+    id: uuidv4(), // precisa ser um uuid
+    name, 
+    username, 
     todos: []
-  })
-
-  return response.status(201).send({message: "User created com success!!!"}) // Depois send(vazio)
+  }
+  users.push(user)
+  return response.status(201).json(user)
 });
+
 
 app.get('/todos', checksExistsUserAccount, (request, response) => {
   // Complete aqui
 });
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  //Complete aqui
 });
 
 app.put('/todos/:id', checksExistsUserAccount, (request, response) => {
