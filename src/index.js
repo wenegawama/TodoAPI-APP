@@ -88,12 +88,22 @@ app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
   }
 
   todo.done = true
-  
+
   return response.json(todo)
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const { id } = request.params
+  const { user } = request
+
+  const todoIndex =  user.todos.findIndex(todo => todo.id === id)
+
+  if(todoIndex === -1) {
+    return response.status(404).json({"error":"An existing todo!!!"})
+  }
+
+  user.todos.splice(todoIndex,1)
+  return response.status(204).json()
 });
 
 module.exports = app;
